@@ -52,7 +52,6 @@
 
 
 #ifdef QB64_WINDOWS
-#include <fcntl.h>
 #include <shellapi.h>
 #endif
 
@@ -98,12 +97,12 @@ void x11_unlock(){
 
 /*
 Logging for QB64 developers (when an alert() just isn't enough)
-	1) Temporarily set allow_logging=1
+        1) Temporarily set allow_logging=1
         2) Call log with a string or number:
-		log_event("this is a char* string");
-		log_event(12345);
-	3) 'log.txt' is created in the same folder as your executable
-	* 'log.txt' is truncated every time your program runs on the first call to log_event(...)
+                log_event("this is a char* string");
+                log_event(12345);
+        3) 'log.txt' is created in the same folder as your executable
+        * 'log.txt' is truncated every time your program runs on the first call to log_event(...)
 */
 int32 allow_logging=1;
 std::ofstream log_file;
@@ -597,23 +596,23 @@ all other OpenGL states are global.
 This means when switching between dest FBOs a complete state change is inevitable.
 */
 struct RENDER_STATE_DEST{ //could be the primary render target or a FBO
-	int32 ignore;//at present no relevant states appear to be FBO specific
+        int32 ignore;//at present no relevant states appear to be FBO specific
 };
 struct RENDER_STATE_SOURCE{ //texture states
-	int32 smooth_stretched;
-	int32 smooth_shrunk;
-	int32 texture_wrap;
+        int32 smooth_stretched;
+        int32 smooth_shrunk;
+        int32 texture_wrap;
         int32 PO2_fix;
 };
 struct RENDER_STATE_GLOBAL{ //settings not bound to specific source/target
-	RENDER_STATE_DEST *dest;
-	RENDER_STATE_SOURCE *source;
-	int32 dest_handle;	
-	int32 source_handle;
-	int32 view_mode;
-	int32 use_alpha;
-	int32 depthbuffer_mode;
-	int32 cull_mode;
+        RENDER_STATE_DEST *dest;
+        RENDER_STATE_SOURCE *source;
+        int32 dest_handle;        
+        int32 source_handle;
+        int32 view_mode;
+        int32 use_alpha;
+        int32 depthbuffer_mode;
+        int32 cull_mode;
 };
 RENDER_STATE_GLOBAL render_state;
 RENDER_STATE_DEST dest_render_state0;
@@ -800,18 +799,18 @@ static uint16 codepage437_to_unicode16[] = {
 static double orwl_timebase = 0.0;
 static uint64_t orwl_timestart = 0;
 int64 orwl_gettime(void) {
-	if (!orwl_timestart) {
-		mach_timebase_info_data_t tb = { 0 };
-		mach_timebase_info(&tb);
-		orwl_timebase = tb.numer;
-		orwl_timebase /= tb.denom;
-		orwl_timestart = mach_absolute_time();
-	}
-	struct timespec t;
-	double diff = (mach_absolute_time() - orwl_timestart) * orwl_timebase;
-	t.tv_sec = diff * ORWL_NANO;
-	t.tv_nsec = diff - (t.tv_sec * ORWL_GIGA);		
-    return t.tv_sec * 1000 + t.tv_nsec / 1000000;		
+        if (!orwl_timestart) {
+                mach_timebase_info_data_t tb = { 0 };
+                mach_timebase_info(&tb);
+                orwl_timebase = tb.numer;
+                orwl_timebase /= tb.denom;
+                orwl_timestart = mach_absolute_time();
+        }
+        struct timespec t;
+        double diff = (mach_absolute_time() - orwl_timestart) * orwl_timebase;
+        t.tv_sec = diff * ORWL_NANO;
+        t.tv_nsec = diff - (t.tv_sec * ORWL_GIGA);                
+    return t.tv_sec * 1000 + t.tv_nsec / 1000000;                
 }
 #endif
 
@@ -824,8 +823,8 @@ int64 GetTicks(){
  #ifdef QB64_MACOSX
     return orwl_gettime();
  #else
-	return ( ( ((int64)clock()) * ((int64)1000) ) / ((int64)CLOCKS_PER_SEC) );	
- #endif	
+        return ( ( ((int64)clock()) * ((int64)1000) ) / ((int64)CLOCKS_PER_SEC) );        
+ #endif        
 #endif
 }
 
@@ -5153,44 +5152,44 @@ hardware_img_struct* src_himg=NULL;
   //or something like that...  I have no idea how to explain what the heck I'm gdoing here!
   //Basically I'm just trying to update the x/y point that we last plot to on our screen so we can pick it back up and use it again...
   if (passed&4){
-	  //we entered both dest numbers.  Our last point plotted should be f_dx2/f_dy2
-	  d->x=f_dx2; 
-	  d->y=f_dy2;
+          //we entered both dest numbers.  Our last point plotted should be f_dx2/f_dy2
+          d->x=f_dx2; 
+          d->y=f_dy2;
   }
   else{
-	  if (passed&1){
-		  //we only sent it the first dest value.  We want to put our rectangle on a portion of the screen starting at this point
-		  if (passed&512) {
-			  //we have all the source values.  We want to put that rectangle over to dest starting at that point
-			  d->x=f_dx1+abs(f_sx2-f_sx1); 
-		      d->y=f_dy1+abs(f_sy2-f_sy1);
-	      }
-	      else{
-			  //we want to go from f_sx1,F_sx2 to the edge of the screen and put it over to dest starting at that point
-		      d->x=f_dx1+abs(sw-f_sx1); 
-		      d->y=f_dy1+abs(sh-f_sy1);
-	      }
-	  }
-	  else{
-		  //we never sent the first source value.  We want to put the image over the whole screen.
-		  d->x=dw; 
-		  d->y=dh;
-	  }
+          if (passed&1){
+                  //we only sent it the first dest value.  We want to put our rectangle on a portion of the screen starting at this point
+                  if (passed&512) {
+                          //we have all the source values.  We want to put that rectangle over to dest starting at that point
+                          d->x=f_dx1+abs(f_sx2-f_sx1); 
+                      d->y=f_dy1+abs(f_sy2-f_sy1);
+              }
+              else{
+                          //we want to go from f_sx1,F_sx2 to the edge of the screen and put it over to dest starting at that point
+                      d->x=f_dx1+abs(sw-f_sx1); 
+                      d->y=f_dy1+abs(sh-f_sy1);
+              }
+          }
+          else{
+                  //we never sent the first source value.  We want to put the image over the whole screen.
+                  d->x=dw; 
+                  d->y=dh;
+          }
   }
 
   //And here we update our source page information so the STEP will work properly there as well.
   //This seems a little simpler logic
 
   if (passed&512){
-	  //we sent it the stop coordinate of where we're reading from
-	  s->x = f_sx2;
-	  s->y = f_sy2;
+          //we sent it the stop coordinate of where we're reading from
+          s->x = f_sx2;
+          s->y = f_sy2;
   }
   else{
-	  //we didn't and we need to have it copy from wherever the starting point is to the bottom right of the screen.
-	  //so our final point read will be the source width/height
-	  s->x = sw;
-	  s->y = sh;
+          //we didn't and we need to have it copy from wherever the starting point is to the bottom right of the screen.
+          //so our final point read will be the source width/height
+          s->x = sw;
+          s->y = sh;
   }
 
 
@@ -6253,13 +6252,13 @@ int32 current_mouse_message=0;
 //Mouse message queue system
 //--------------------------
 struct mouse_message_queue_struct{
-	mouse_message *queue;
-	int32 lastIndex;
-	int32 current;
-	int32 first;
-	int32 last;
-	int32 child;
-	int32 parent;
+        mouse_message *queue;
+        int32 lastIndex;
+        int32 current;
+        int32 first;
+        int32 last;
+        int32 child;
+        int32 parent;
 };
 list *mouse_message_queue_handles=NULL;
 int32 mouse_message_queue_first; //the first queue to populate from input source
@@ -7288,7 +7287,7 @@ void fix_error(){
 
 //Android cannot halt threads, so the easiest compromise is to just display the error
 #ifdef QB64_ANDROID
-	showErrorOnScreen(cp, new_error, ercl);
+        showErrorOnScreen(cp, new_error, ercl);
 #endif
 
     if (prevent_handling){
@@ -8700,51 +8699,51 @@ int32 qbs_notequal(qbs *str1,qbs *str2){
 }
 int32 qbs_greaterthan(qbs *str2,qbs *str1){
 //same process as for lessthan; we just reverse the string order
-	int32 i, limit, l1, l2;
+        int32 i, limit, l1, l2;
     l1 = str1->len; l2 = str2->len;  
-	if (!l1) if (l2) return -1; else return 0;
-	if (l1<=l2) limit = l1; else limit = l2; 
+        if (!l1) if (l2) return -1; else return 0;
+        if (l1<=l2) limit = l1; else limit = l2; 
     i=memcmp(str1->chr,str2->chr,limit); 
-	if (i<0) return -1;
-	if (i>0) return 0; 
-	if (l1<l2) return -1;   
+        if (i<0) return -1;
+        if (i>0) return 0; 
+        if (l1<l2) return -1;   
     return 0;
 }
 int32 qbs_lessthan(qbs *str1,qbs *str2){
   int32 i, limit, l1, l2;
     l1 = str1->len; l2 = str2->len;  //no need to get the length of these strings multiple times.
-	if (!l1) if (l2) return -1; else return 0;  //if one is a null string we known the answer already.
-	if (l1<=l2) limit = l1; else limit = l2; //our limit is going to be the length of the smallest string.
+        if (!l1) if (l2) return -1; else return 0;  //if one is a null string we known the answer already.
+        if (l1<=l2) limit = l1; else limit = l2; //our limit is going to be the length of the smallest string.
     i=memcmp(str1->chr,str2->chr,limit); //check only to the length of the shortest string
-	if (i<0) return -1; //if the number is smaller by this point, say so
-	if (i>0) return 0; // if it's larger by this point, say so
-	//if the number is the same at this point, compare length.
-	//if the length of the first one is smaller, then the string is smaller. Otherwise the second one is the same string, or longer.
-	if (l1<l2) return -1;   
+        if (i<0) return -1; //if the number is smaller by this point, say so
+        if (i>0) return 0; // if it's larger by this point, say so
+        //if the number is the same at this point, compare length.
+        //if the length of the first one is smaller, then the string is smaller. Otherwise the second one is the same string, or longer.
+        if (l1<l2) return -1;   
     return 0;
 }
 int32 qbs_lessorequal(qbs *str1,qbs *str2){
   //same process as lessthan, but we check to see if the lengths are equal here also.
   int32 i, limit, l1, l2;
     l1 = str1->len; l2 = str2->len; 
-	if (!l1) return 0;  //if the first string has no length then it HAS to be smaller or equal to the second
-	if (l1<=l2) limit = l1; else limit = l2;
+        if (!l1) return 0;  //if the first string has no length then it HAS to be smaller or equal to the second
+        if (l1<=l2) limit = l1; else limit = l2;
     i=memcmp(str1->chr,str2->chr,limit); 
-	if (i<0) return -1;
-	if (i>0) return 0; 
-	if (l1<=l2) return -1;  
+        if (i<0) return -1;
+        if (i>0) return 0; 
+        if (l1<=l2) return -1;  
     return 0;
 }
 int32 qbs_greaterorequal(qbs *str2,qbs *str1){
   //same process as for lessorequal; we just reverse the string order
   int32 i, limit, l1, l2;
     l1 = str1->len; l2 = str2->len; 
-	if (!l1) return 0;
-	if (l1<=l2) limit = l1; else limit = l2;
+        if (!l1) return 0;
+        if (l1<=l2) limit = l1; else limit = l2;
     i=memcmp(str1->chr,str2->chr,limit); 
-	if (i<0) return -1;
-	if (i>0) return 0; 
-	if (l1<=l2) return -1;  
+        if (i<0) return -1;
+        if (i>0) return 0; 
+        if (l1<=l2) return -1;  
     return 0;
 }
 
@@ -14046,22 +14045,22 @@ long double func_val(qbs *s){
 
     case '-':
       if (step==0) {
-	negate = 1;
-	step = 1;
-	goto checked;
+        negate = 1;
+        step = 1;
+        goto checked;
       }
       else if (step==3) {
-	negate_exponent = 1;
-	step = 4;
-	goto checked;
+        negate_exponent = 1;
+        step = 4;
+        goto checked;
       }
       goto finish;
       break;
 
     case '+':
       if (step==0 || step==3) {
-	step++;
-	goto checked;
+        step++;
+        goto checked;
       }
       goto finish;
       break;
@@ -14077,29 +14076,29 @@ long double func_val(qbs *s){
     case '8':
     case '9':
       if (step<=1){//before decimal point
-	step=1;
-	if ((num_significant_digits)||(c>48)){
-	  most_significant_digit_position++;
-	  significant_digits[num_significant_digits]=c;
-	  num_significant_digits++;
-	  value=value*10+c-48;
-	}
+        step=1;
+        if ((num_significant_digits)||(c>48)){
+          most_significant_digit_position++;
+          significant_digits[num_significant_digits]=c;
+          num_significant_digits++;
+          value=value*10+c-48;
+        }
       }      
       else if (step==2){//after decimal point
-	if ((num_significant_digits==0)&&(c==48)) most_significant_digit_position--;
-	if ((num_significant_digits)||(c>48)){
-	  significant_digits[num_significant_digits]=c;
-	  num_significant_digits++;
-	}
+        if ((num_significant_digits==0)&&(c==48)) most_significant_digit_position--;
+        if ((num_significant_digits)||(c>48)){
+          significant_digits[num_significant_digits]=c;
+          num_significant_digits++;
+        }
       }
       
       else if (step>=3){//exponent
-	step=4;
-	if ((num_exponent_digits)||(c>48)){
-	  if (num_exponent_digits>=18) goto finish;
-	  exponent_value*=10; exponent_value=exponent_value+c-48;//precalculate
-	  num_exponent_digits++;
-	}
+        step=4;
+        if ((num_exponent_digits)||(c>48)){
+          if (num_exponent_digits>=18) goto finish;
+          exponent_value*=10; exponent_value=exponent_value+c-48;//precalculate
+          num_exponent_digits++;
+        }
       }
       goto checked;
       break;
@@ -14146,8 +14145,8 @@ long double func_val(qbs *s){
     //build nomalised mantissa 
     for (i2=0;i2<num_significant_digits;i2++){
       if (i2==1){
-	built_number[i]=46;
-	i++;
+        built_number[i]=46;
+        i++;
       }
       built_number[i]=significant_digits[i2]; i++;
     }
@@ -14203,7 +14202,7 @@ long double func_val(qbs *s){
           if (hex_digits||c) hex_digits++; 
           if (hex_digits>64){error(6); return 0;}
       }else 
-	      break;
+              break;
       }//i
       return hex_value;
   }
@@ -14654,7 +14653,7 @@ void sub_close(int32 i2,int32 passed){
       return;
     }//special handle
 
-	
+        
     if (gfs_fileno_valid(i2)==1) gfs_close(gfs_fileno[i2]);
     return;
 
@@ -14803,8 +14802,8 @@ void sub_file_print(int32 i,qbs *str,int32 extraspace,int32 tab,int32 newline){
   gfs=&gfs_file[i];
 
   if (gfs->scrn==1) {
-	qbs_print (str, newline);
-	return;
+        qbs_print (str, newline);
+        return;
   };
 
   if (gfs->type!=4){error(54); return;}//Bad file mode
@@ -17936,9 +17935,9 @@ qbs *func_input(int32 n,int32 i,int32 passed){
     qbs_free(str2);
     if (stop_program) return str;
     if (x<n){
-	evnt(0);//check for new events
+        evnt(0);//check for new events
         Sleep(10);
-	goto waitforinput;
+        goto waitforinput;
     }
     return str;
   }
@@ -17996,37 +17995,37 @@ void file_line_input_string_binary(int32 fileno, qbs *deststr) {
   int64 filelength = func_lof(fileno);
    if (start_byte > filelength) {
     error(62);//input past end of file
-	return;
+        return;
   }
   qbs *buffer = qbs_new(filebuf_size, 0);
   qbs_set(deststr, qbs_new_txt_len("", 0));
     do {
       if (start_byte + filebuf_size > filelength) filebuf_size = filelength - start_byte + 1;
       qbs_set(buffer,func_space(qbr(filebuf_size))); 
-	  
-	  sub_get2(fileno, start_byte, buffer, 1);
+          
+          sub_get2(fileno, start_byte, buffer, 1);
       int32 eol_pos = func_instr(0, buffer, eol, 0);
       if (eol_pos == 0) {
-		if ((start_byte + filebuf_size)>=filelength) {
+                if ((start_byte + filebuf_size)>=filelength) {
             qbs_set(deststr, buffer);
-			gfs_setpos(filehandle,filelength); //set the position right before the EOF marker
-	        gfs_file[filehandle].eof_passed=1;//also set EOF flag;
-			qbs_free(buffer);
-	        return;
-		}
+                        gfs_setpos(filehandle,filelength); //set the position right before the EOF marker
+                gfs_file[filehandle].eof_passed=1;//also set EOF flag;
+                        qbs_free(buffer);
+                return;
+                }
         filebuf_size += 512;
-	  }
+          }
       else {
-    	qbs_set(deststr, qbs_add(deststr, qbs_left(buffer, eol_pos - 1)));
-	    break;
+            qbs_set(deststr, qbs_add(deststr, qbs_left(buffer, eol_pos - 1)));
+            break;
       }
     } while (!func_eof(fileno));
   qbs_free(buffer);
   if (start_byte + deststr->len + 2 >= filelength) { //if we've read to the end of the line
-	  gfs_setpos(filehandle,filelength); //set the position right before the EOF marker
-	  gfs_file[filehandle].eof_passed=1;//also set EOF flag;
-	  if (deststr->chr[deststr->len - 1] == '\r') qbs_set(deststr, qbs_left(deststr, deststr->len-1));
-	  return;
+          gfs_setpos(filehandle,filelength); //set the position right before the EOF marker
+          gfs_file[filehandle].eof_passed=1;//also set EOF flag;
+          if (deststr->chr[deststr->len - 1] == '\r') qbs_set(deststr, qbs_left(deststr, deststr->len-1));
+          return;
   }
   gfs_setpos(filehandle,start_byte + deststr->len); //set the position at the end of the text
   if (deststr->chr[deststr->len - 1] == '\r') qbs_set(deststr, qbs_left(deststr, deststr->len-1));
@@ -21043,8 +21042,8 @@ int32 func__printwidth(qbs* text, int32 screenhandle, int32 passed){
     static int64 bytes;
     fh=gfs_open(f,1,0,0);
 
-	#ifdef QB64_WINDOWS //rather than just immediately tossing an error, let's try looking in the default OS folder for the font first in case the use left off the filepath.
-	    if (fh<0) {fh=gfs_open(qbs_add(qbs_new_txt_len("C:/Windows/Fonts/",17),f),1,0,0);}
+        #ifdef QB64_WINDOWS //rather than just immediately tossing an error, let's try looking in the default OS folder for the font first in case the use left off the filepath.
+            if (fh<0) {fh=gfs_open(qbs_add(qbs_new_txt_len("C:/Windows/Fonts/",17),f),1,0,0);}
     #endif
 
     if (fh<0) return -1;
@@ -21542,7 +21541,7 @@ int32 func__printwidth(qbs* text, int32 screenhandle, int32 passed){
     }
 
 #ifdef DEPENDENCY_CONSOLE_ONLY
-	screen_hide=1;
+        screen_hide=1;
 #endif
 
     if (!screen_hide){
@@ -21570,7 +21569,7 @@ int32 func__printwidth(qbs* text, int32 screenhandle, int32 passed){
       autodisplay=1;
       //7. Wait for a new keypress
       do{
-	Sleep(100);
+        Sleep(100);
     if (stop_program) end();
     }while(qbs_cleanup(qbs_tmp_base,qbs_equal(qbs_inkey(),qbs_new_txt(""))));
 
@@ -22976,6 +22975,7 @@ int32 func__printwidth(qbs* text, int32 screenhandle, int32 passed){
 
 
   //Referenced: http://johnnie.jerrata.com/winsocktutorial/
+  //Much of the unix sockets code based on http://beej.us/guide/bgnet/
 #ifdef QB64_WINDOWS
 #include <winsock2.h>
   WSADATA wsaData;
@@ -22983,6 +22983,7 @@ int32 func__printwidth(qbs* text, int32 screenhandle, int32 passed){
 #else
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <netdb.h>
 #endif
 
 
@@ -22994,33 +22995,45 @@ int32 func__printwidth(qbs* text, int32 screenhandle, int32 passed){
     static int32 init=0;
     if (!init){
       init=1;
-#if defined(QB64_WINDOWS) && defined(DEPENDENCY_SOCKETS)
+#if !defined(DEPENDENCY_SOCKETS)
+#elif defined(QB64_WINDOWS)
       sockVersion = MAKEWORD(1, 1);
       WSAStartup(sockVersion, &wsaData);
+#elif defined(QB64_LINUX)
+#else
 #endif
     }
   }
 
   void tcp_done(){
-#if defined(QB64_WINDOWS) && defined(DEPENDENCY_SOCKETS)
+#if !defined(DEPENDENCY_SOCKETS)
+#elif defined(QB64_WINDOWS)
     WSACleanup();
+#elif defined(QB64_LINUX)
+#else
 #endif
   }
 
   struct tcp_connection{
-#if defined(QB64_WINDOWS) && defined(DEPENDENCY_SOCKETS)
+#if !defined(DEPENDENCY_SOCKETS)
+#elif defined(QB64_WINDOWS)
     SOCKET socket;
+#elif defined(QB64_LINUX)
+    int socket;
+#else
 #endif
     int32 port;//connection to host & clients only
     uint8 ip4[4];//connection to host only
     uint8* hostname;//clients only
+    int connected;
   };
 
   void *tcp_host_open(int64 port){
     tcp_init();
     if ((port<0)||(port>65535)) return NULL;
-
-#if defined(QB64_WINDOWS) && defined(DEPENDENCY_SOCKETS)
+#if !defined(DEPENDENCY_SOCKETS)
+    return NULL;
+#elif defined(QB64_WINDOWS)
     //Ref. from 'winsock.h': typedef u_int SOCKET;
     static SOCKET listeningSocket;
     listeningSocket = socket(AF_INET,       // Go over TCP/IP
@@ -23047,10 +23060,46 @@ int32 func__printwidth(qbs* text, int32 screenhandle, int32 passed){
     static tcp_connection *connection;
     connection=(tcp_connection*)calloc(sizeof(tcp_connection),1);
     connection->socket=listeningSocket;
+    connection->connected = -1;
     return (void*)connection;
-#endif
+#elif defined(QB64_LINUX)
+    struct addrinfo hints, *servinfo, *p;
+    int sockfd;
+    char str_port[6];
+    int yes = 1;
+    snprintf(str_port, 6, "%d", port);
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = AI_PASSIVE;
+    if (getaddrinfo(NULL, str_port, &hints, &servinfo) != 0) return NULL;
+    for(p = servinfo; p != NULL; p = p->ai_next) {
+      sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
+      if (sockfd == -1) continue;
+      setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
+      if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
+            close(sockfd);
+            continue;
+      }
+      break; //if we get here, all is good
+    }
+    freeaddrinfo(servinfo);
+    if (p == NULL) return NULL; //indicates none of the entries succeeded
+    fcntl(sockfd, F_SETFL, O_NONBLOCK); //make socket non-blocking
+    
+    if (listen(sockfd, SOMAXCONN) == -1) {
+      close(sockfd);
+      return NULL;
+    }    
 
+    tcp_connection *connection;
+    connection=(tcp_connection*)calloc(sizeof(tcp_connection),1);
+    connection->socket=sockfd;
+    connection->connected = -1;
+    return (void*)connection;
+#else
     return NULL;
+#endif
   }
 
 
@@ -23066,8 +23115,9 @@ int32 func__printwidth(qbs* text, int32 screenhandle, int32 passed){
     tcp_init();
 
     if ((port<0)||(port>65535)) return NULL;
-
-#if defined(QB64_WINDOWS) && defined(DEPENDENCY_SOCKETS)
+#if !defined(DEPENDENCY_SOCKETS)
+    return NULL;
+#elif defined(QB64_WINDOWS)
     static LPHOSTENT hostEntry;
     hostEntry=gethostbyname((char*)host);
     if (!hostEntry) return NULL;
@@ -23100,18 +23150,51 @@ int32 func__printwidth(qbs* text, int32 screenhandle, int32 passed){
     connection=(tcp_connection*)calloc(sizeof(tcp_connection),1);
     connection->socket=theSocket;
     connection->port=port;
-    connection->hostname=(uint8*)malloc(strlen((char*)host));
+    connection->connected = -1;
+    connection->hostname=(uint8*)malloc(strlen((char*)host)+1);
     memcpy(connection->hostname,host,strlen((char*)host)+1);
     return (void*)connection;
-#endif
+#elif defined(QB64_LINUX)
+    struct addrinfo hints, *servinfo, *p;
+    int sockfd;
+    char str_port[6];
+    snprintf(str_port, 6, "%d", port);
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    if (getaddrinfo((char*)host, str_port, &hints, &servinfo) != 0) return NULL;
+    for(p = servinfo; p != NULL; p = p->ai_next) {
+      sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
+      if (sockfd == -1) continue;
+      if (connect(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
+            close(sockfd);
+            continue;
+      }
+      break; //if we get here, all is good
+    }
+    freeaddrinfo(servinfo);
+    if (p == NULL) return NULL; //indicates none of the entries succeeded
+    fcntl(sockfd, F_SETFL, O_NONBLOCK); //make socket non-blocking
 
+    //now we just need to create a struct tcp_connection to return
+    tcp_connection *connection;
+    connection=(tcp_connection*)calloc(sizeof(tcp_connection),1);
+    connection->socket=sockfd;
+    connection->port=port;
+    connection->connected = -1;
+    connection->hostname=(uint8*)malloc(strlen((char*)host)+1);
+    memcpy(connection->hostname,host,strlen((char*)host)+1);
+    return (void*)connection;
+#else
     return NULL;
+#endif
   }
 
 
   void *tcp_connection_open(void *host_tcp){
-
-#if defined(QB64_WINDOWS) && defined(DEPENDENCY_SOCKETS)
+#if !defined(DEPENDENCY_SOCKETS)
+    return NULL;
+#elif defined(QB64_WINDOWS)
     static tcp_connection *host; host=(tcp_connection*)host_tcp;
     static sockaddr sa;
     static int sa_size;
@@ -23129,37 +23212,71 @@ int32 func__printwidth(qbs* text, int32 screenhandle, int32 passed){
     connection->socket=new_socket;
     //IPv4: port,port,ip,ip,ip,ip
     connection->port=*((uint16*)sa.sa_data);
+    connection->connected = -1;
     *((uint32*)(connection->ip4))=*((uint32*)(sa.sa_data+2));
     return (void*)connection;
-#endif
+#elif defined(QB64_LINUX)
+    tcp_connection *host; host=(tcp_connection*)host_tcp;
+    struct sockaddr remote_addr;
+    socklen_t addr_size;
+    int fd;
+    
+    addr_size = sizeof(remote_addr);
+    fd = accept(host->socket, &remote_addr, &addr_size);
+    if (fd == -1) return NULL;
+    fcntl(fd, F_SETFL, O_NONBLOCK); //make socket non-blocking
 
-    return NULL;
+    tcp_connection *connection;
+    connection=(tcp_connection*)calloc(sizeof(tcp_connection),1);
+    connection->socket=fd;
+    connection->connected = -1;
+    //IPv4: port,port,ip,ip,ip,ip
+    connection->port=*((uint16*)remote_addr.sa_data);
+    *((uint32*)(connection->ip4))=*((uint32*)(remote_addr.sa_data+2));
+    return (void*)connection;
+#else
+    return NULL:
+#endif
   }
 
   void tcp_close(void* connection){
-    static tcp_connection *tcp=(tcp_connection*)connection;
-#if defined(QB64_WINDOWS) && defined(DEPENDENCY_SOCKETS)
-    shutdown(tcp->socket,SD_BOTH);
-    closesocket(tcp->socket);
+    tcp_connection *tcp=(tcp_connection*)connection;
+#if !defined(DEPENDENCY_SOCKETS)
+#elif defined(QB64_WINDOWS)
+    if (tcp->socket) {
+      shutdown(tcp->socket,SD_BOTH);
+      closesocket(tcp->socket);
+    }
+#elif defined(QB64_LINUX)
+    if (tcp->socket) {
+      shutdown(tcp->socket, SHUT_RDWR);
+      close(tcp->socket);
+    }
 #endif
     if (tcp->hostname) free(tcp->hostname);
     free(tcp);
   }
 
   void tcp_out(void *connection,void *offset,ptrszint bytes){
+#if !defined(DEPENDENCY_SOCKETS)
+#elif defined(QB64_WINDOWS) || defined(QB64_LINUX)
+    tcp_connection *tcp; tcp=(tcp_connection*)connection;
+    int total = 0;        // how many bytes we've sent
+    int bytesleft = bytes; // how many we have left to send
+    int n;
 
-#if defined(QB64_WINDOWS) && defined(DEPENDENCY_SOCKETS)
-    static tcp_connection *tcp; tcp=(tcp_connection*)connection;
-    static int nret;
-    nret = send(tcp->socket,
-        (char*)offset,
-        bytes,
-        0);
+    while(total < bytes) {
+      n = send(tcp->socket, (char*)((char *)offset + total), bytesleft, 0);
+      if (n < 0) {
+	tcp->connected = 0;
+	return;
+      }
+      total += n;
+      bytesleft -= n;
+    }
+#else
 #endif
-
   }
-
-
 
   int32 cloud_port_redirect=-1;
   struct connection_struct{
@@ -23188,8 +23305,8 @@ int32 func__printwidth(qbs* text, int32 screenhandle, int32 passed){
 
 
   void stream_update(stream_struct *stream){
-
-#if defined(QB64_WINDOWS) && defined(DEPENDENCY_SOCKETS)
+#if !defined(DEPENDENCY_SOCKETS)
+#elif defined(QB64_WINDOWS) || defined(QB64_LINUX)
     //assume tcp
 
     static connection_struct *connection;
@@ -23207,28 +23324,31 @@ int32 func__printwidth(qbs* text, int32 screenhandle, int32 passed){
   expand_and_retry:
 
     //expand buffer if 'in' stream is full
+    //also guarantees that bytes requested from recv() is not 0
     if (stream->in_size==stream->in_limit){
       stream->in_limit*=2; stream->in=(uint8*)realloc(stream->in,stream->in_limit);
     }
 
 
     bytes = recv(tcp->socket,(char*)(stream->in+stream->in_size),
-         stream->in_limit-stream->in_size,
-         0);
-    if (bytes==SOCKET_ERROR){
-      //Known error codes:
-      //10035 WSAEWOULDBLOCK Resource temporarily unavailable. This error is returned from operations on nonblocking sockets that cannot be completed immediately, for example recv when no data is queued to be read from the socket. It is a nonfatal error, and the operation should be retried later. It is normal for WSAEWOULDBLOCK to be reported as the result from calling connect on a nonblocking SOCK_STREAM socket, since some time must elapse for the connection to be established.
-      static ptrszint e;
-      e=WSAGetLastError();
-      return;
-    }
-    if (bytes<=0) return;
-    stream->in_size+=bytes;
-
-
-    if (stream->in_size==stream->in_limit) goto expand_and_retry;
+		 stream->in_limit-stream->in_size,
+		 0);
+    if (bytes < 0) { //some kind of error
+#ifdef QB64_WINDOWS
+      if (WSAGetLastError() != WSAEWOULDBLOCK) tcp->connected = 0; //fatal error
+#else
+      if (errno != EAGAIN && errno != EWOULDBLOCK) tcp->connected = 0;
 #endif
-
+    }
+    else if (bytes == 0) { //graceful shutdown occured
+      tcp->connected = 0;
+    }
+    else {
+      stream->in_size+=bytes;
+      if (stream->in_size==stream->in_limit) goto expand_and_retry;
+    }
+#else
+#endif    
   }
 
 
@@ -23512,20 +23632,14 @@ int32 func__printwidth(qbs* text, int32 screenhandle, int32 passed){
   }
 
   int32 tcp_connected (void *connection){
-    static tcp_connection *tcp=(tcp_connection*)connection;
-#if defined(QB64_WINDOWS) && defined(DEPENDENCY_SOCKETS)
-    char buf;
-    int length=recv(tcp->socket, &buf, 0, 0);
-    int nError=WSAGetLastError();
-    if(nError!=WSAEWOULDBLOCK&&nError!=0)
-      {
+    tcp_connection *tcp=(tcp_connection*)connection;
+#if !defined(DEPENDENCY_SOCKETS)
     return 0;
-      } 
-    if (nError==0){
-      if (length==0) return 0;
-    }
+#elif defined(QB64_WINDOWS) || defined(QB64_LINUX)
+    return tcp->connected;
+#else
+    return 0;
 #endif
-    return -1;
   }
 
   int32 func__connected(int32 i){
@@ -23845,7 +23959,7 @@ int32 func__exit(){
   exit_blocked=1;
   static int32 x;
   x=exit_value;
-  exit_value=0;
+  if (x) exit_value = 0;
   return x;
 }
 
@@ -24016,10 +24130,10 @@ if (x11selectionowner!=None){
      EmptyClipboard();
      h=GlobalAlloc(GMEM_MOVEABLE,text->len+1); if (h){
        textz=(uint8*)GlobalLock(h); if (textz){
-	 memcpy(textz,text->chr,text->len);
-	 textz[text->len]=0;
-	 GlobalUnlock(h);
-	 SetClipboardData(CF_TEXT,h);
+         memcpy(textz,text->chr,text->len);
+         textz[text->len]=0;
+         GlobalUnlock(h);
+         SetClipboardData(CF_TEXT,h);
        }
      }
      CloseClipboard();
@@ -24037,7 +24151,7 @@ if (x11selectionowner!=None){
      return;
    }
    CFDataRef data = CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, text->chr, 
-						text->len, kCFAllocatorNull);
+                                                text->len, kCFAllocatorNull);
    if (data == NULL) {
      CFRelease(clipboard);
      return;
@@ -24562,7 +24676,7 @@ return qbs_new(0,1);
 
   int32 gfs_validhandle(int32 i){
     if ((i<0)||(i>=gfs_n)) return 0;
-	if (gfs_file[i].scrn) return 1;
+        if (gfs_file[i].scrn) return 1;
     if (gfs_file[i].open) return 1;
     return 0;
   }
@@ -24602,7 +24716,7 @@ return qbs_new(0,1);
 
   int32 gfs_free(int32 i){
     
-	if (!gfs_validhandle(i)) return -2;//invalid handle    
+        if (!gfs_validhandle(i)) return -2;//invalid handle    
     if (gfs_freed_size<=gfs_freed_n){
       gfs_freed_size++;
       gfs_freed=(int32*)realloc(gfs_freed,gfs_freed_size*4);
@@ -24904,32 +25018,32 @@ return qbs_new(0,1);
     if (!filenamez) filenamez=qbs_new(0,0);
     qbs_set(filenamez,qbs_add(filename,qbs_new_txt_len("\0",1)));
 
-	i=gfs_new();
+        i=gfs_new();
     f=&gfs_file[i];
 
-	    int32 v1;		
-		unsigned char *c1=filename->chr;		
-		v1=*c1;		
-		if (v1==83||v1==115) {  //S		
-			c1++;		
-			v1=*c1;		
-		    if (v1==67||v1==99) {  //C		
-		        c1++;		
-			    v1=*c1;		
-		        if (v1==82||v1==114) {  //R		
-				    c1++;		
-			        v1=*c1;		
-		            if (v1==78||v1==110) {  //N		
-					    c1++;		
-	        	        v1=*c1;		
-		                if (v1==58) {  //:		
-							f->scrn=1;		
-			                return i;		
-						};		
-					};		
-				};		
-		    };		
-		};
+            int32 v1;                
+                unsigned char *c1=filename->chr;                
+                v1=*c1;                
+                if (v1==83||v1==115) {  //S                
+                        c1++;                
+                        v1=*c1;                
+                    if (v1==67||v1==99) {  //C                
+                        c1++;                
+                            v1=*c1;                
+                        if (v1==82||v1==114) {  //R                
+                                    c1++;                
+                                v1=*c1;                
+                            if (v1==78||v1==110) {  //N                
+                                            c1++;                
+                                v1=*c1;                
+                                if (v1==58) {  //:                
+                                                        f->scrn=1;                
+                                        return i;                
+                                                };                
+                                        };                
+                                };                
+                    };                
+                };
 
 
     if (access&1) f->read=1;
@@ -27502,11 +27616,11 @@ return qbs_new(0,1);
   }
 
   int32 func__screenx(){
-	  #ifdef QB64_GUI
+          #ifdef QB64_GUI
           #ifdef QB64_WINDOWS
           #ifdef QB64_GLUT
-	      while (!window_exists){Sleep(100);} //Wait for window to be created before checking position
-	      return glutGet(GLUT_WINDOW_X) - glutGet(GLUT_WINDOW_BORDER_WIDTH);
+              while (!window_exists){Sleep(100);} //Wait for window to be created before checking position
+              return glutGet(GLUT_WINDOW_X) - glutGet(GLUT_WINDOW_BORDER_WIDTH);
           #endif
           #endif
           #endif
@@ -27514,15 +27628,15 @@ return qbs_new(0,1);
   }
 
   int32 func__screeny(){
-	  #ifdef QB64_GUI
+          #ifdef QB64_GUI
           #ifdef QB64_WINDOWS
           #ifdef QB64_GLUT
-		while (!window_exists){Sleep(100);} //Wait for window to be created before checking position
-		return glutGet(GLUT_WINDOW_Y) - glutGet(GLUT_WINDOW_BORDER_WIDTH) - glutGet(GLUT_WINDOW_HEADER_HEIGHT);
+                while (!window_exists){Sleep(100);} //Wait for window to be created before checking position
+                return glutGet(GLUT_WINDOW_Y) - glutGet(GLUT_WINDOW_BORDER_WIDTH) - glutGet(GLUT_WINDOW_HEADER_HEIGHT);
           #endif
           #endif
           #endif
-	  return 0; //if not windows then return 0
+          return 0; //if not windows then return 0
   }
 
   void sub__screenmove(int32 x,int32 y,int32 passed){
@@ -27531,25 +27645,25 @@ return qbs_new(0,1);
     if (passed==3) goto error;
     if (full_screen) return;
 
-	#ifdef QB64_GUI        
-        #ifdef QB64_GLUT	
-	while (!window_exists){Sleep(100);} //wait for window to be created before moving it.
-	if (passed==2){
-		glutPositionWindow (x,y);}
-	else{
-		int32 SW, SH, WW, WH;
-			SW = glutGet(GLUT_SCREEN_WIDTH);
-			SH = glutGet(GLUT_SCREEN_HEIGHT);
-			WW = glutGet(GLUT_WINDOW_WIDTH);
-			WH = glutGet(GLUT_WINDOW_HEIGHT);
-			x = (SW - WW)/2;
-			y = (SH - WH)/2;
-			glutPositionWindow (x,y);
+        #ifdef QB64_GUI        
+        #ifdef QB64_GLUT        
+        while (!window_exists){Sleep(100);} //wait for window to be created before moving it.
+        if (passed==2){
+                glutPositionWindow (x,y);}
+        else{
+                int32 SW, SH, WW, WH;
+                        SW = glutGet(GLUT_SCREEN_WIDTH);
+                        SH = glutGet(GLUT_SCREEN_HEIGHT);
+                        WW = glutGet(GLUT_WINDOW_WIDTH);
+                        WH = glutGet(GLUT_WINDOW_HEIGHT);
+                        x = (SW - WW)/2;
+                        y = (SH - WH)/2;
+                        glutPositionWindow (x,y);
         }
         #endif
         #endif
 
-	return;
+        return;
 
   error:
     error(5);
@@ -28043,13 +28157,13 @@ if (options==4){
 
 int32 new_mode;
 if (options==1){
-	new_mode=DEPTHBUFFER_MODE__ON;
+        new_mode=DEPTHBUFFER_MODE__ON;
 }
 if (options==2){
-	new_mode=DEPTHBUFFER_MODE__OFF;
+        new_mode=DEPTHBUFFER_MODE__OFF;
 }
 if (options==3){
-	new_mode=DEPTHBUFFER_MODE__LOCKED;
+        new_mode=DEPTHBUFFER_MODE__LOCKED;
 }
 
 if (dst==0){
@@ -28103,7 +28217,7 @@ void sub__maptriangle(int32 cull_options,float sx1,float sy1,float sx2,float sy2
       if (dst<0){
         dst_himg=(hardware_img_struct*)list_get(hardware_img_handles,dst-HARDWARE_IMG_HANDLE_OFFSET);
         if (dst_himg==NULL){error(258); return;}
-	dst-=HARDWARE_IMG_HANDLE_OFFSET;
+        dst-=HARDWARE_IMG_HANDLE_OFFSET;
       }else{
         if (dst>1) {error(5); return;}
         dst=-dst;
@@ -28126,7 +28240,7 @@ void sub__maptriangle(int32 cull_options,float sx1,float sy1,float sx2,float sy2
         hgc->command=HARDWARE_GRAPHICS_COMMAND__MAPTRIANGLE3D;
         hgc->cull_mode=CULL_MODE__NONE;
         if (cull_options==1) hgc->cull_mode=CULL_MODE__CLOCKWISE_ONLY;
-	if (cull_options==2) hgc->cull_mode=CULL_MODE__ANTICLOCKWISE_ONLY;
+        if (cull_options==2) hgc->cull_mode=CULL_MODE__ANTICLOCKWISE_ONLY;
     }else{
         hgc->command=HARDWARE_GRAPHICS_COMMAND__MAPTRIANGLE;
     }
@@ -28150,10 +28264,10 @@ void sub__maptriangle(int32 cull_options,float sx1,float sy1,float sx2,float sy2
         hgc->dst_z1=fdz1;
         hgc->dst_z2=fdz2;
         hgc->dst_z3=fdz3;
-    	if (dst==0) hgc->depthbuffer_mode=depthbuffer_mode0;
-	if (dst==-1) hgc->depthbuffer_mode=depthbuffer_mode1;
-	if (dst_himg!=NULL){
-	     hgc->depthbuffer_mode=dst_himg->depthbuffer_mode;
+            if (dst==0) hgc->depthbuffer_mode=depthbuffer_mode0;
+        if (dst==-1) hgc->depthbuffer_mode=depthbuffer_mode1;
+        if (dst_himg!=NULL){
+             hgc->depthbuffer_mode=dst_himg->depthbuffer_mode;
         }        
     }
 
@@ -29050,8 +29164,8 @@ void sub__maptriangle(int32 cull_options,float sx1,float sy1,float sx2,float sy2
     */
 #endif 
 
-//Note: The following is required regardless of whether FREEGLUT is/isn't being used	  
-//#ifdef CORE_FREEGLUT	  
+//Note: The following is required regardless of whether FREEGLUT is/isn't being used          
+//#ifdef CORE_FREEGLUT          
     //Is CTRL key down? If so, unencode character (applying shift as required)
     if (mod&2){
       //if (key==127){ //Removed: Might clash with CTRL+DELETE
@@ -29098,10 +29212,10 @@ void sub__maptriangle(int32 cull_options,float sx1,float sy1,float sx2,float sy2
 
   void GLUT_KEYBOARD_FUNC(unsigned char key,int x, int y){
 
-	  
+          
  
-	  
-	  
+          
+          
 
     //glutPostRedisplay();
 
@@ -29119,7 +29233,7 @@ void sub__maptriangle(int32 cull_options,float sx1,float sy1,float sx2,float sy2
 #ifdef QB64_GLUT
 #ifndef CORE_FREEGLUT
     /*
-	static int32 mod;
+        static int32 mod;
     mod=glutGetModifiers();//shift=1, control=2, alt=4
     if (mod&GLUT_ACTIVE_SHIFT){
       keydown_vk(VK+QBVK_LSHIFT);
@@ -29138,9 +29252,9 @@ void sub__maptriangle(int32 cull_options,float sx1,float sy1,float sx2,float sy2
     }else{
       keyup_vk(VK+QBVK_LALT);
     }
-	*/
+        */
 #endif
-	  
+          
     static int32 vk;
     vk=-1;
     if (key==GLUT_KEY_F1){vk=0x3B00;}
@@ -29205,14 +29319,14 @@ void sub__maptriangle(int32 cull_options,float sx1,float sy1,float sx2,float sy2
 #else
   void GLUT_IDLEFUNC(){
 
-#ifdef QB64_MACOSX	  
+#ifdef QB64_MACOSX          
 #ifdef DEPENDENCY_DEVICEINPUT
-	  //must be in same thread as GLUT for OSX
-	  QB64_GAMEPAD_POLL();
-	  //[[[[NSApplication sharedApplication] mainWindow] standardWindowButton:NSWindowCloseButton] setEnabled:YES];
-#endif	 
+          //must be in same thread as GLUT for OSX
+          QB64_GAMEPAD_POLL();
+          //[[[[NSApplication sharedApplication] mainWindow] standardWindowButton:NSWindowCloseButton] setEnabled:YES];
+#endif         
 #endif
-	  
+          
 #ifdef QB64_GLUT
 
     if (x11_lock_request){     
@@ -29349,9 +29463,9 @@ qbs *func__cwd(){
 
 qbs *startDir=NULL;//set on startup
 qbs *func__startdir(){
-	qbs *temp=qbs_new(0, 1);
-	qbs_set(temp, startDir);
-	return temp;
+        qbs *temp=qbs_new(0, 1);
+        qbs_set(temp, startDir);
+        return temp;
 }
 
   extern void set_dynamic_info();
@@ -29360,58 +29474,58 @@ qbs *func__startdir(){
 
 #ifdef QB64_ANDROID
 
-	void android_get_file_asset(AAssetManager* mgr, char *filename){
-		AAsset* asset = AAssetManager_open(mgr, filename, AASSET_MODE_STREAMING);
-		char buf[BUFSIZ];
-		int nb_read = 0;
-		FILE* out = fopen(filename, "w");
-		while ((nb_read = AAsset_read(asset, buf, BUFSIZ)) > 0)	fwrite(buf, nb_read, 1, out);
-		fclose(out);
-		AAsset_close(asset);
+        void android_get_file_asset(AAssetManager* mgr, char *filename){
+                AAsset* asset = AAssetManager_open(mgr, filename, AASSET_MODE_STREAMING);
+                char buf[BUFSIZ];
+                int nb_read = 0;
+                FILE* out = fopen(filename, "w");
+                while ((nb_read = AAsset_read(asset, buf, BUFSIZ)) > 0)        fwrite(buf, nb_read, 1, out);
+                fclose(out);
+                AAsset_close(asset);
         }
 
-	//notes:
-	// * Actual entry point is in fg_runtime_android.c which has been modified to pass 'android_app' to us
+        //notes:
+        // * Actual entry point is in fg_runtime_android.c which has been modified to pass 'android_app' to us
 
-	int main(int argc, char* argv[], struct android_app* android_state_in) {
+        int main(int argc, char* argv[], struct android_app* android_state_in) {
 
-	android_state=android_state_in;
-	android_vm=android_state->activity->vm;
-	android_env=android_state->activity->env;
+        android_state=android_state_in;
+        android_vm=android_state->activity->vm;
+        android_env=android_state->activity->env;
 
-	struct android_app* app=android_state_in;
-  	JNIEnv* env = app->activity->env;
-	JavaVM* vm = app->activity->vm;
-	vm->AttachCurrentThread( &env, NULL);
+        struct android_app* app=android_state_in;
+          JNIEnv* env = app->activity->env;
+        JavaVM* vm = app->activity->vm;
+        vm->AttachCurrentThread( &env, NULL);
 
-	// Get a handle on our calling NativeActivity class
-	jclass activityClass = env->GetObjectClass( app->activity->clazz);
-	// Get path to files dir
-	jmethodID getFilesDir = env->GetMethodID( activityClass, "getFilesDir", "()Ljava/io/File;");
-	jobject file = env->CallObjectMethod( app->activity->clazz, getFilesDir);
-	jclass fileClass = env->FindClass( "java/io/File");
-	jmethodID getAbsolutePath = env->GetMethodID( fileClass, "getAbsolutePath", "()Ljava/lang/String;");
-	jstring jpath = (jstring)env->CallObjectMethod( file, getAbsolutePath);
-	const char* app_dir = env->GetStringUTFChars( jpath, NULL);
-	// chdir in the application files directory
-	LOGI("app_dir: %s", app_dir);
-	chdir(app_dir);
-	env->ReleaseStringUTFChars( jpath, app_dir);
-	// Pre-extract assets, to avoid Android-specific file opening
+        // Get a handle on our calling NativeActivity class
+        jclass activityClass = env->GetObjectClass( app->activity->clazz);
+        // Get path to files dir
+        jmethodID getFilesDir = env->GetMethodID( activityClass, "getFilesDir", "()Ljava/io/File;");
+        jobject file = env->CallObjectMethod( app->activity->clazz, getFilesDir);
+        jclass fileClass = env->FindClass( "java/io/File");
+        jmethodID getAbsolutePath = env->GetMethodID( fileClass, "getAbsolutePath", "()Ljava/lang/String;");
+        jstring jpath = (jstring)env->CallObjectMethod( file, getAbsolutePath);
+        const char* app_dir = env->GetStringUTFChars( jpath, NULL);
+        // chdir in the application files directory
+        LOGI("app_dir: %s", app_dir);
+        chdir(app_dir);
+        env->ReleaseStringUTFChars( jpath, app_dir);
+        // Pre-extract assets, to avoid Android-specific file opening
 
-		
-	AAssetManager* mgr = app->activity->assetManager;
-	
-	/* Old code which pulled all root directory assets, in QB64 assets are specified in code so this just wastes time
-	AAssetDir* assetDir = AAssetManager_openDir(mgr, "");
-	const char* filename = (const char*)NULL;	
-	while ((filename = AAssetDir_getNextFileName(assetDir)) != NULL) {
-		android_get_file_asset(mgr,filename);
+                
+        AAssetManager* mgr = app->activity->assetManager;
+        
+        /* Old code which pulled all root directory assets, in QB64 assets are specified in code so this just wastes time
+        AAssetDir* assetDir = AAssetManager_openDir(mgr, "");
+        const char* filename = (const char*)NULL;        
+        while ((filename = AAssetDir_getNextFileName(assetDir)) != NULL) {
+                android_get_file_asset(mgr,filename);
         }
-	AAssetDir_close(assetDir);
-	*/
+        AAssetDir_close(assetDir);
+        */
 
-	#include "../temp/assets.txt"
+        #include "../temp/assets.txt"
 
 
 
@@ -29445,42 +29559,42 @@ qbs *func__startdir(){
 //{
 
 /*
-	jclass Toast = NULL;
-	jobject toast = NULL;
-	jmethodID makeText = NULL;
-	jmethodID show = NULL;
+        jclass Toast = NULL;
+        jobject toast = NULL;
+        jmethodID makeText = NULL;
+        jmethodID show = NULL;
 
-	Toast = env->FindClass("android/widget/Toast");
-	if(NULL == Toast)
-	{
-		LOGI("FindClass failed");
-		return;
-	}
+        Toast = env->FindClass("android/widget/Toast");
+        if(NULL == Toast)
+        {
+                LOGI("FindClass failed");
+                return;
+        }
 
-	makeText = env->GetStaticMethodID(Toast,"makeText", "(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;");
-	if( NULL == makeText )
-	{
-		LOGI("FindStaticMethod failed");
-		return;
-	}
+        makeText = env->GetStaticMethodID(Toast,"makeText", "(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;");
+        if( NULL == makeText )
+        {
+                LOGI("FindStaticMethod failed");
+                return;
+        }
 
 
-	//toast = env->CallStaticObjectMethod(Toast, makeText, thiz, txt, time);
-	toast = env->CallStaticObjectMethod(Toast, makeText, thiz, txt, time);
-	if ( NULL == toast) 
-	{
-		LOGI("CALLSTATICOBJECT FAILED");
-		return;
-	}
+        //toast = env->CallStaticObjectMethod(Toast, makeText, thiz, txt, time);
+        toast = env->CallStaticObjectMethod(Toast, makeText, thiz, txt, time);
+        if ( NULL == toast) 
+        {
+                LOGI("CALLSTATICOBJECT FAILED");
+                return;
+        }
 */
 /*
-	show = env->GetMethodID(pEnv,Toast,"show","()V");
-	if ( NULL == show )
-	{
-		LOGI("GetMethodID Failed");
-		return;
-	}
-	env->CallVoidMethod(pEnv,toast,show);
+        show = env->GetMethodID(pEnv,Toast,"show","()V");
+        if ( NULL == show )
+        {
+                LOGI("GetMethodID Failed");
+                return;
+        }
+        env->CallVoidMethod(pEnv,toast,show);
 */
 
 
@@ -29491,55 +29605,55 @@ qbs *func__startdir(){
 
 
 
-	/*
-	AAsset* asset = AAssetManager_open(mgr, filename, AASSET_MODE_STREAMING);
-	char buf[BUFSIZ];
-	int nb_read = 0;
-	FILE* out = fopen(filename, "w");
-	while ((nb_read = AAsset_read(asset, buf, BUFSIZ)) > 0)
-	fwrite(buf, nb_read, 1, out);
-	fclose(out);
-	AAsset_close(asset);
+        /*
+        AAsset* asset = AAssetManager_open(mgr, filename, AASSET_MODE_STREAMING);
+        char buf[BUFSIZ];
+        int nb_read = 0;
+        FILE* out = fopen(filename, "w");
+        while ((nb_read = AAsset_read(asset, buf, BUFSIZ)) > 0)
+        fwrite(buf, nb_read, 1, out);
+        fclose(out);
+        AAsset_close(asset);
         }
-	*/
+        */
 
 
 
-/*	
-	// Get a handle on our calling NativeActivity class
-	jclass activityClass = env->GetObjectClass( app->activity->clazz);
-	// Get path to files dir
-	jmethodID getFilesDir = env->GetMethodID( activityClass, "getFilesDir", "()Ljava/io/File;");
-	jobject file = env->CallObjectMethod( app->activity->clazz, getFilesDir);
-	jclass fileClass = env->FindClass( "java/io/File");
-	jmethodID getAbsolutePath = env->GetMethodID( fileClass, "getAbsolutePath", "()Ljava/lang/String;");
-	jstring jpath = (jstring)env->CallObjectMethod( file, getAbsolutePath);
-	const char* app_dir = env->GetStringUTFChars( jpath, NULL);
-	// chdir in the application files directory
-	LOGI("app_dir: %s", app_dir);
-	chdir(app_dir);
-	env->ReleaseStringUTFChars( jpath, app_dir);
-	// Pre-extract assets, to avoid Android-specific file opening
-	{
-	AAssetManager* mgr = app->activity->assetManager;
-	AAssetDir* assetDir = AAssetManager_openDir(mgr, "");
-	const char* filename = (const char*)NULL;
-	while ((filename = AAssetDir_getNextFileName(assetDir)) != NULL) {
-	AAsset* asset = AAssetManager_open(mgr, filename, AASSET_MODE_STREAMING);
-	char buf[BUFSIZ];
-	int nb_read = 0;
-	FILE* out = fopen(filename, "w");
-	while ((nb_read = AAsset_read(asset, buf, BUFSIZ)) > 0)
-	fwrite(buf, nb_read, 1, out);
-	fclose(out);
-	AAsset_close(asset);
+/*        
+        // Get a handle on our calling NativeActivity class
+        jclass activityClass = env->GetObjectClass( app->activity->clazz);
+        // Get path to files dir
+        jmethodID getFilesDir = env->GetMethodID( activityClass, "getFilesDir", "()Ljava/io/File;");
+        jobject file = env->CallObjectMethod( app->activity->clazz, getFilesDir);
+        jclass fileClass = env->FindClass( "java/io/File");
+        jmethodID getAbsolutePath = env->GetMethodID( fileClass, "getAbsolutePath", "()Ljava/lang/String;");
+        jstring jpath = (jstring)env->CallObjectMethod( file, getAbsolutePath);
+        const char* app_dir = env->GetStringUTFChars( jpath, NULL);
+        // chdir in the application files directory
+        LOGI("app_dir: %s", app_dir);
+        chdir(app_dir);
+        env->ReleaseStringUTFChars( jpath, app_dir);
+        // Pre-extract assets, to avoid Android-specific file opening
+        {
+        AAssetManager* mgr = app->activity->assetManager;
+        AAssetDir* assetDir = AAssetManager_openDir(mgr, "");
+        const char* filename = (const char*)NULL;
+        while ((filename = AAssetDir_getNextFileName(assetDir)) != NULL) {
+        AAsset* asset = AAssetManager_open(mgr, filename, AASSET_MODE_STREAMING);
+        char buf[BUFSIZ];
+        int nb_read = 0;
+        FILE* out = fopen(filename, "w");
+        while ((nb_read = AAsset_read(asset, buf, BUFSIZ)) > 0)
+        fwrite(buf, nb_read, 1, out);
+        fclose(out);
+        AAsset_close(asset);
         }
-	AAssetDir_close(assetDir);
-    	}
+        AAssetDir_close(assetDir);
+            }
 */
-	
+        
 #else
-	int main( int argc, char* argv[] ){
+        int main( int argc, char* argv[] ){
 #endif
 
 #ifdef QB64_LINUX
@@ -29830,21 +29944,21 @@ qbs_set(startDir,func__cwd());
 #endif
 #endif
 #ifdef QB64_LINUX
-	#ifdef QB64_MACOSX
-		{
-			char pathbuf[65536];
-			uint32_t pathbufsize = sizeof(pathbuf);
-			_NSGetExecutablePath(pathbuf, &pathbufsize);			
-			chdir(dirname(pathbuf));
-		}
-	#else
-		{
-			char pathbuf[65536];
-			memset(pathbuf, 0, sizeof(pathbuf));
-			readlink("/proc/self/exe", pathbuf, 65535);
-			chdir(dirname(pathbuf));
-		}
-	#endif
+        #ifdef QB64_MACOSX
+                {
+                        char pathbuf[65536];
+                        uint32_t pathbufsize = sizeof(pathbuf);
+                        _NSGetExecutablePath(pathbuf, &pathbufsize);                        
+                        chdir(dirname(pathbuf));
+                }
+        #else
+                {
+                        char pathbuf[65536];
+                        memset(pathbuf, 0, sizeof(pathbuf));
+                        readlink("/proc/self/exe", pathbuf, 65535);
+                        chdir(dirname(pathbuf));
+                }
+        #endif
 #endif
 #endif
 
@@ -30337,115 +30451,115 @@ QB64_GAMEPAD_INIT();
 #endif
 
 #ifdef QB64_MACOSX  
-	  //This is a global keydown handler for OSX, it requires assistive devices in asseccibility to be enabled
-	  //becuase of security concerns (QB64 will not use this)
-	  /*
-	  [NSEvent addGlobalMonitorForEventsMatchingMask:NSKeyDownMask
-											 handler:^(NSEvent *event){
-	   NSString *chars = [[event characters] lowercaseString];
-	   unichar character = [chars characterAtIndex:0];
-	   NSLog(@"keydown globally! Which key? This key: %c", character);
+          //This is a global keydown handler for OSX, it requires assistive devices in asseccibility to be enabled
+          //becuase of security concerns (QB64 will not use this)
+          /*
+          [NSEvent addGlobalMonitorForEventsMatchingMask:NSKeyDownMask
+                                                                                         handler:^(NSEvent *event){
+           NSString *chars = [[event characters] lowercaseString];
+           unichar character = [chars characterAtIndex:0];
+           NSLog(@"keydown globally! Which key? This key: %c", character);
        }];
-	  */
-	   	  
-	  /*
-	  [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:^NSEvent* (NSEvent* event){
-	   //NSString *keyPressed = event.charactersIgnoringModifiers;
-	   //[self.keystrokes appendString:keyPressed];
-	   NSString *chars = [[event characters] lowercaseString];
-	   unichar character = [chars characterAtIndex:0];
-	   NSLog(@"keydown locally! Which key? This key: %c", character);
-	   return event;
-	   }];
+          */
+                     
+          /*
+          [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:^NSEvent* (NSEvent* event){
+           //NSString *keyPressed = event.charactersIgnoringModifiers;
+           //[self.keystrokes appendString:keyPressed];
+           NSString *chars = [[event characters] lowercaseString];
+           unichar character = [chars characterAtIndex:0];
+           NSLog(@"keydown locally! Which key? This key: %c", character);
+           return event;
+           }];
       */
 
       //[[[[NSApplication sharedApplication] mainWindow] standardWindowButton:NSWindowCloseButton] setEnabled:YES];
-	  
-	  [NSEvent addLocalMonitorForEventsMatchingMask:NSFlagsChangedMask handler:^NSEvent* (NSEvent* event){
-	   
-	   //notes on bitfields:
-	   //if ([event modifierFlags] == 131330) keydown_vk(VK+QBVK_LSHIFT);// 100000000100000010
-	   //if ([event modifierFlags] == 131332) keydown_vk(VK+QBVK_RSHIFT);// 100000000100000100	   	   
-	   //if ([event modifierFlags] == 262401) keydown_vk(VK+QBVK_LCTRL); //1000000000100000001
-	   //if ([event modifierFlags] == 270592) keydown_vk(VK+QBVK_RCTRL); //1000010000100000000	   
-	   //if ([event modifierFlags] == 524576) keydown_vk(VK+QBVK_LALT); //10000000000100100000
-	   //if ([event modifierFlags] == 524608) keydown_vk(VK+QBVK_RALT); //10000000000101000000
+          
+          [NSEvent addLocalMonitorForEventsMatchingMask:NSFlagsChangedMask handler:^NSEvent* (NSEvent* event){
+           
+           //notes on bitfields:
+           //if ([event modifierFlags] == 131330) keydown_vk(VK+QBVK_LSHIFT);// 100000000100000010
+           //if ([event modifierFlags] == 131332) keydown_vk(VK+QBVK_RSHIFT);// 100000000100000100                      
+           //if ([event modifierFlags] == 262401) keydown_vk(VK+QBVK_LCTRL); //1000000000100000001
+           //if ([event modifierFlags] == 270592) keydown_vk(VK+QBVK_RCTRL); //1000010000100000000           
+           //if ([event modifierFlags] == 524576) keydown_vk(VK+QBVK_LALT); //10000000000100100000
+           //if ([event modifierFlags] == 524608) keydown_vk(VK+QBVK_RALT); //10000000000101000000
        //caps lock                                                      //   10000000100000000
-	   
-	   int x=[event modifierFlags];
-	   
-	   if (x&(1<<0)){
-	   if (!keyheld(VK+QBVK_LCTRL)) keydown_vk(VK+QBVK_LCTRL);
-	   }else{
-	   if (keyheld(VK+QBVK_LCTRL)) keyup_vk(VK+QBVK_LCTRL);
-	   }
-	   if (x&(1<<13)){
-	   if (!keyheld(VK+QBVK_RCTRL)) keydown_vk(VK+QBVK_RCTRL);
-	   }else{
-	   if (keyheld(VK+QBVK_RCTRL)) keyup_vk(VK+QBVK_RCTRL);
-	   }
-	   
-	   if (x&(1<<1)){
-	   if (!keyheld(VK+QBVK_LSHIFT)) keydown_vk(VK+QBVK_LSHIFT);
-	   }else{
-	   if (keyheld(VK+QBVK_LSHIFT)) keyup_vk(VK+QBVK_LSHIFT);
-	   }
-	   if (x&(1<<2)){
-	   if (!keyheld(VK+QBVK_RSHIFT)) keydown_vk(VK+QBVK_RSHIFT);
-	   }else{
-	   if (keyheld(VK+QBVK_RSHIFT)) keyup_vk(VK+QBVK_RSHIFT);
-	   }
-	   
-	   if (x&(1<<5)){
-	   if (!keyheld(VK+QBVK_LALT)) keydown_vk(VK+QBVK_LALT);
-	   }else{
-	   if (keyheld(VK+QBVK_LALT)) keyup_vk(VK+QBVK_LALT);
-	   }
-	   if (x&(1<<6)){
-	   if (!keyheld(VK+QBVK_RALT)) keydown_vk(VK+QBVK_RALT);
-	   }else{
-	   if (keyheld(VK+QBVK_RALT)) keyup_vk(VK+QBVK_RALT);
-	   }
-	   
-	   if (x&(1<<16)){
-	   if (!keyheld(VK+QBVK_CAPSLOCK)) keydown_vk(VK+QBVK_CAPSLOCK);
-	   }else{
-	   if (keyheld(VK+QBVK_CAPSLOCK)) keyup_vk(VK+QBVK_CAPSLOCK);
-	   }
-	   
-	   return event;
-	   }];
-	  
+           
+           int x=[event modifierFlags];
+           
+           if (x&(1<<0)){
+           if (!keyheld(VK+QBVK_LCTRL)) keydown_vk(VK+QBVK_LCTRL);
+           }else{
+           if (keyheld(VK+QBVK_LCTRL)) keyup_vk(VK+QBVK_LCTRL);
+           }
+           if (x&(1<<13)){
+           if (!keyheld(VK+QBVK_RCTRL)) keydown_vk(VK+QBVK_RCTRL);
+           }else{
+           if (keyheld(VK+QBVK_RCTRL)) keyup_vk(VK+QBVK_RCTRL);
+           }
+           
+           if (x&(1<<1)){
+           if (!keyheld(VK+QBVK_LSHIFT)) keydown_vk(VK+QBVK_LSHIFT);
+           }else{
+           if (keyheld(VK+QBVK_LSHIFT)) keyup_vk(VK+QBVK_LSHIFT);
+           }
+           if (x&(1<<2)){
+           if (!keyheld(VK+QBVK_RSHIFT)) keydown_vk(VK+QBVK_RSHIFT);
+           }else{
+           if (keyheld(VK+QBVK_RSHIFT)) keyup_vk(VK+QBVK_RSHIFT);
+           }
+           
+           if (x&(1<<5)){
+           if (!keyheld(VK+QBVK_LALT)) keydown_vk(VK+QBVK_LALT);
+           }else{
+           if (keyheld(VK+QBVK_LALT)) keyup_vk(VK+QBVK_LALT);
+           }
+           if (x&(1<<6)){
+           if (!keyheld(VK+QBVK_RALT)) keydown_vk(VK+QBVK_RALT);
+           }else{
+           if (keyheld(VK+QBVK_RALT)) keyup_vk(VK+QBVK_RALT);
+           }
+           
+           if (x&(1<<16)){
+           if (!keyheld(VK+QBVK_CAPSLOCK)) keydown_vk(VK+QBVK_CAPSLOCK);
+           }else{
+           if (keyheld(VK+QBVK_CAPSLOCK)) keyup_vk(VK+QBVK_CAPSLOCK);
+           }
+           
+           return event;
+           }];
+          
        /*
-	  [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask|NSFlagsChangedMask handler:^NSEvent *(NSEvent *incomingEvent) {
-	   if (incomingEvent.type == NSFlagsChanged && (incomingEvent.modifierFlags & NSDeviceIndependentModifierFlagsMask)) {
-	   NSLog(@"modifier key down");
-	   } else if (incomingEvent.type == NSKeyDown) {
-	   NSLog(@"other key down");
-	   }	   
-	   return incomingEvent;
+          [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask|NSFlagsChangedMask handler:^NSEvent *(NSEvent *incomingEvent) {
+           if (incomingEvent.type == NSFlagsChanged && (incomingEvent.modifierFlags & NSDeviceIndependentModifierFlagsMask)) {
+           NSLog(@"modifier key down");
+           } else if (incomingEvent.type == NSKeyDown) {
+           NSLog(@"other key down");
+           }           
+           return incomingEvent;
        }];
-       */	  
-	  	  
-	  /*
-	  if (NSApp){
-		  NSMenu      *menu;
-		  NSMenuItem  *menuItem;  
-		  
-		  [NSApp setMainMenu:[[NSMenu alloc] init]];
-		  
-		  menu = [[NSMenu alloc] initWithTitle:@""];
-		  [menu addItemWithTitle:@"About..." action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""]; 
-		  
-		  menuItem = [[NSMenuItem alloc] initWithTitle:@"Apple" action:nil keyEquivalent:@""];
-		  [menuItem setSubmenu:menu];
-		  [[NSApp mainMenu] addItem:menuItem];
-		  [NSApp setAppleMenu:menu];
+       */          
+                    
+          /*
+          if (NSApp){
+                  NSMenu      *menu;
+                  NSMenuItem  *menuItem;  
+                  
+                  [NSApp setMainMenu:[[NSMenu alloc] init]];
+                  
+                  menu = [[NSMenu alloc] initWithTitle:@""];
+                  [menu addItemWithTitle:@"About..." action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""]; 
+                  
+                  menuItem = [[NSMenuItem alloc] initWithTitle:@"Apple" action:nil keyEquivalent:@""];
+                  [menuItem setSubmenu:menu];
+                  [[NSApp mainMenu] addItem:menuItem];
+                  [NSApp setAppleMenu:menu];
      }  
-	 */
+         */
 
 #endif 
-	  
+          
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
     glutInitWindowSize(640,400);//cannot be changed unless display_x(etc) are modified
@@ -30534,11 +30648,11 @@ QB64_GAMEPAD_INIT();
 
   main_loop:
     
-	#ifdef DEPENDENCY_DEVICEINPUT
-		#ifndef QB64_MACOSX 
-			QB64_GAMEPAD_POLL();
-		#endif
-	#endif	
+        #ifdef DEPENDENCY_DEVICEINPUT
+                #ifndef QB64_MACOSX 
+                        QB64_GAMEPAD_POLL();
+                #endif
+        #endif        
 
     if (lock_mainloop==1){
       lock_mainloop=2;
@@ -30651,7 +30765,7 @@ QB64_GAMEPAD_INIT();
         
         if (code==77){//M (mousemove)
           sscanf (buffer+start,"%d,%d",&v1,&v2);          
-	  GLUT_MOTION_FUNC(v1,v2);
+          GLUT_MOTION_FUNC(v1,v2);
         }//M
 
         if (code==76){//L (left mouse button)
@@ -31691,8 +31805,8 @@ QB64_GAMEPAD_INIT();
           //a valid frame of the correct dimensions exists and we are not required to display software content
           goto no_new_frame;
         }
-	
-	if (memcmp(display_frame[i2].bgra,display_page->offset,i)) goto update_display32b;
+        
+        if (memcmp(display_frame[i2].bgra,display_page->offset,i)) goto update_display32b;
         if (qb64_ime_reading==1) goto screen_refreshed;
         goto no_new_frame;//no need to update display
       }
@@ -31784,10 +31898,10 @@ QB64_GAMEPAD_INIT();
 
       //data changed?
       if (i!=pixeldatasize){
-    	free(pixeldata);
-    	pixeldata=(uint8*)malloc(i);
-    	pixeldatasize=i;
-    	goto update_display;
+            free(pixeldata);
+            pixeldata=(uint8*)malloc(i);
+            pixeldatasize=i;
+            goto update_display;
       }
 
       if (force_display_update) goto update_display; //force update
@@ -32793,23 +32907,23 @@ QB64_GAMEPAD_INIT();
   #ifdef QB64_WINDOWS
   extern "C" LRESULT qb64_os_event_windows(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, int *qb64_os_event_info){
     if (*qb64_os_event_info==OS_EVENT_PRE_PROCESSING){
-	//example usage
+        //example usage
         /*
-	if (uMsg==WM_CLOSE){
+        if (uMsg==WM_CLOSE){
           alert("goodbye");
-	  *qb64_os_event_info=OS_EVENT_RETURN_IMMEDIATELY;
+          *qb64_os_event_info=OS_EVENT_RETURN_IMMEDIATELY;
         }
-	*/
+        */
 
 
-	if (uMsg==WM_KEYDOWN){
+        if (uMsg==WM_KEYDOWN){
 
-	if (device_last){//core devices required?
-	
-	/*
-	16-23	The scan code. The value depends on the OEM.
-	24	Indicates whether the key is an extended key, such as the right-hand ALT and CTRL keys that appear on an enhanced 101- or 102-key keyboard. The value is 1 if it is an extended key; otherwise, it is 0.
-	*/
+        if (device_last){//core devices required?
+        
+        /*
+        16-23        The scan code. The value depends on the OEM.
+        24        Indicates whether the key is an extended key, such as the right-hand ALT and CTRL keys that appear on an enhanced 101- or 102-key keyboard. The value is 1 if it is an extended key; otherwise, it is 0.
+        */
 
           static int32 code,special;
           special=0;//set to 2 for keys which we cannot detect a release for
@@ -32847,14 +32961,14 @@ QB64_GAMEPAD_INIT();
 }//WM_KEYDOWN
 
 
-	if (uMsg==WM_KEYUP){
+        if (uMsg==WM_KEYUP){
 
-	if (device_last){//core devices required?
-	
-	/*
-	16-23	The scan code. The value depends on the OEM.
-	24	Indicates whether the key is an extended key, such as the right-hand ALT and CTRL keys that appear on an enhanced 101- or 102-key keyboard. The value is 1 if it is an extended key; otherwise, it is 0.
-	*/
+        if (device_last){//core devices required?
+        
+        /*
+        16-23        The scan code. The value depends on the OEM.
+        24        Indicates whether the key is an extended key, such as the right-hand ALT and CTRL keys that appear on an enhanced 101- or 102-key keyboard. The value is 1 if it is an extended key; otherwise, it is 0.
+        */
 
           static int32 code;
 
@@ -32921,12 +33035,12 @@ QB64_GAMEPAD_INIT();
   extern "C" void qb64_os_event_linux(XEvent *event, Display *display, int *qb64_os_event_info){
     if (*qb64_os_event_info==OS_EVENT_PRE_PROCESSING){
 
-	if (X11_display==NULL){
-	 X11_display=display;
-	 X11_window=event->xexpose.window;
+        if (X11_display==NULL){
+         X11_display=display;
+         X11_window=event->xexpose.window;
         }
 
-	x11filter(event);//handles clipboard request events from other applications
+        x11filter(event);//handles clipboard request events from other applications
 
 /*
 Atom a1, a2, type;
@@ -32998,8 +33112,8 @@ XFree (data);
 
 
 
-	//if (event->type==KeyPress){		
-	//}
+        //if (event->type==KeyPress){                
+        //}
 
 /*
 

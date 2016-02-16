@@ -185,12 +185,26 @@ IF LoadedIDESettings = 0 THEN
         ideindentsubs = 1
     elseif result = 0 then
         WriteConfigSetting "'[IDE DISPLAY SETTINGS]", "IDE_IndentSUBs", "FALSE"
-	ideindentsubs = 0
+        ideindentsubs = 0
     ELSEIF UCASE$(value$) <> "FALSE" AND value$ <> "0" THEN
             WriteConfigSetting "'[IDE DISPLAY SETTINGS]", "IDE_IndentSUBs", "TRUE"
             ideindentsubs = 1
     else
             ideindentsubs = 0
+    end if
+
+    result = ReadConfigSetting("IDE_SortSUBs", value$)
+    idesortsubs = VAL(value$)
+    IF UCASE$(value$) = "TRUE" OR idesortsubs <> 0 THEN
+        idesortsubs = 1
+    elseif result = 0 then
+        WriteConfigSetting "'[IDE DISPLAY SETTINGS]", "IDE_SortSUBs", "FALSE"
+        idesortsubs = 0
+    ELSEIF UCASE$(value$) <> "FALSE" AND value$ <> "0" THEN
+            WriteConfigSetting "'[IDE DISPLAY SETTINGS]", "IDE_SortSUBs", "TRUE"
+            idesortsubs = 1
+    else
+            idesortsubs = 0
     end if
 
     result = ReadConfigSetting("IDE_IndentSize", value$)
